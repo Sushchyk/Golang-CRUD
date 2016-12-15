@@ -17,7 +17,7 @@ const (
 
 func main() {
 	// Listen for incoming connections.
-	l, err := net.Listen(CONN_TYPE, CONN_HOST+":"+CONN_PORT)
+	l, err := net.Listen(CONN_TYPE, CONN_HOST + ":" + CONN_PORT)
 	if err != nil {
 		fmt.Println("Error listening:", err.Error())
 		os.Exit(1)
@@ -43,13 +43,12 @@ func main() {
 	}
 }
 
-
 func handleConnection(conn net.Conn, dataStorage *database.MyDatabaseWrapper) {
 	for {
 		connbuf := bufio.NewReader(conn)
-		for{
+		for {
 			result, err := connbuf.ReadString('\n')
-			if err!= nil {
+			if err != nil {
 				conn.Write([]byte("Error\n"))
 			}
 			go handleRequest(result, conn, dataStorage)
@@ -62,7 +61,7 @@ func handleRequest(input string, conn net.Conn, dataStorage *database.MyDatabase
 
 	if (!database.ValidateQuery(query)) {
 		conn.Write([]byte("Wrong format of query\n"))
-	}   else {
+	} else {
 		conn.Write([]byte(database.HandleQuery(query, dataStorage) + "\n" ))
 	}
 }

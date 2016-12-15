@@ -18,12 +18,9 @@ func getActions() map[string]string {
 	return actions;
 }
 
-
-
 func ValidateQuery(query []string) bool {
 
-
-	countOfFields := new (Employee).getCountOfFields()
+	countOfFields := new(Employee).getCountOfFields()
 	actions := getActions();
 
 	if (len(query) == 0) {
@@ -93,7 +90,7 @@ func HandleQuery(query []string, dataStorage *MyDatabaseWrapper) string {
 		if (typeErr == nil) {
 			err = dataStorage.updateOneRecord(id, query[2:5])
 
-		}	else {
+		} else {
 			err = errors.New("ID must be integer")
 		}
 
@@ -116,7 +113,7 @@ func HandleQuery(query []string, dataStorage *MyDatabaseWrapper) string {
 
 		return responseMessage
 
-	}	else {
+	} else {
 
 		return err.Error()
 

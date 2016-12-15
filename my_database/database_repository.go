@@ -12,18 +12,19 @@ type MyDatabaseRepository struct {
 	filename string
 }
 
-func (databaseRepo * MyDatabaseRepository)load()  map[int]Employee{
+func (databaseRepo *MyDatabaseRepository)load() map[int]Employee {
+
 	var result map[int]Employee
 	data, err := ioutil.ReadFile(databaseRepo.filename)
 	if (err == nil) {
 		json.Unmarshal(data, &result)
-	}	else {
+	} else {
 		return make(map[int]Employee)
 	}
 	return result
 }
 
-func (databaseRepo * MyDatabaseRepository)save(data map[int]Employee) error{
+func (databaseRepo *MyDatabaseRepository)save(data map[int]Employee) error {
 	fileHandle, _ := os.Create(databaseRepo.filename)
 	writer := bufio.NewWriter(fileHandle)
 	defer fileHandle.Close()

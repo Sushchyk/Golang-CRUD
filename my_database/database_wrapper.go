@@ -8,9 +8,8 @@ import (
 
 type MyDatabaseWrapper struct {
 	file sync.Mutex
-	data	     map[int]Employee
-	repo 	     MyDatabaseRepository
-
+	data map[int]Employee
+	repo MyDatabaseRepository
 }
 
 func (databaseWrapper *MyDatabaseWrapper) loadDataFromFile() {
@@ -23,14 +22,13 @@ func (databaseWrapper *MyDatabaseWrapper) saveDataToFile() {
 
 func (databaseWrapper *MyDatabaseWrapper) Initialize() {
 
-	databaseWrapper.file =  sync.Mutex{}
+	databaseWrapper.file = sync.Mutex{}
 	databaseWrapper.repo = MyDatabaseRepository{filename:"test.json"}
 	databaseWrapper.loadDataFromFile()
 
-
 }
 
-func (databaseWrapper *MyDatabaseWrapper) addOneRecord(fields []string) (error){
+func (databaseWrapper *MyDatabaseWrapper) addOneRecord(fields []string) (error) {
 
 	max_key := 0
 	for k, _ := range databaseWrapper.data {
@@ -45,27 +43,27 @@ func (databaseWrapper *MyDatabaseWrapper) addOneRecord(fields []string) (error){
 	return nil
 }
 
-func (databaseWrapper *MyDatabaseWrapper) updateOneRecord(id int, fields []string) (error){
+func (databaseWrapper *MyDatabaseWrapper) updateOneRecord(id int, fields []string) (error) {
 
 	if _, ok := databaseWrapper.data[id]; ok {
 		databaseWrapper.data[id] = Employee{Name: fields[0], Surname: fields[1], Position: fields[2]}
 		databaseWrapper.saveDataToFile()
 		return nil
-	}	else {
+	} else {
 		return errors.New("Record not found")
 	}
 }
 
-func (databaseWrapper *MyDatabaseWrapper) readOneRecord(id int) (string, error){
+func (databaseWrapper *MyDatabaseWrapper) readOneRecord(id int) (string, error) {
 	if val, ok := databaseWrapper.data[id]; ok {
 		return fmt.Sprintf("ID: %-3d || Name: %-12s || Surname: %-15s || Position: %-15s",
 			id, val.Name, val.Surname, val.Position), nil
-	}	else {
+	} else {
 		return "_", errors.New("Record not found")
 	}
 }
 
-func (databaseWrapper *MyDatabaseWrapper) readAllRecords() (string, error){
+func (databaseWrapper *MyDatabaseWrapper) readAllRecords() (string, error) {
 	result := fmt.Sprintf("%3s %15s %15s %15s", "ID", "Name", "Surname", "Position")
 
 	for k, v := range databaseWrapper.data {
@@ -76,12 +74,12 @@ func (databaseWrapper *MyDatabaseWrapper) readAllRecords() (string, error){
 	return string(result), nil
 }
 
-func (databaseWrapper *MyDatabaseWrapper) deleteOneRecord(id int) error{
+func (databaseWrapper *MyDatabaseWrapper) deleteOneRecord(id int) error {
 	if _, ok := databaseWrapper.data[id]; ok {
 		delete(databaseWrapper.data, id)
 		databaseWrapper.saveDataToFile()
 		return nil
-	}	else {
+	} else {
 		return errors.New("Record not found")
 	}
 }
