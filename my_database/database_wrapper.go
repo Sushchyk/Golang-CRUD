@@ -43,7 +43,7 @@ func (databaseWrapper *MyDatabaseWrapper) addOneRecord(fields []string) (error) 
 	}
 	databaseWrapper.data[max_key + 1] = Employee{Name: fields[0], Surname: fields[1], Position: fields[2]}
 
-	databaseWrapper.saveDataToFile()
+	go databaseWrapper.saveDataToFile()
 
 	return nil
 }
@@ -52,7 +52,7 @@ func (databaseWrapper *MyDatabaseWrapper) updateOneRecord(id int, fields []strin
 
 	if _, ok := databaseWrapper.data[id]; ok {
 		databaseWrapper.data[id] = Employee{Name: fields[0], Surname: fields[1], Position: fields[2]}
-		databaseWrapper.saveDataToFile()
+		go databaseWrapper.saveDataToFile()
 		return nil
 	} else {
 		return errors.New("Record not found")
@@ -82,7 +82,7 @@ func (databaseWrapper *MyDatabaseWrapper) readAllRecords() (string, error) {
 func (databaseWrapper *MyDatabaseWrapper) deleteOneRecord(id int) error {
 	if _, ok := databaseWrapper.data[id]; ok {
 		delete(databaseWrapper.data, id)
-		databaseWrapper.saveDataToFile()
+		go databaseWrapper.saveDataToFile()
 		return nil
 	} else {
 		return errors.New("Record not found")
