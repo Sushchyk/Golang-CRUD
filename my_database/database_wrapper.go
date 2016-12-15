@@ -13,11 +13,16 @@ type MyDatabaseWrapper struct {
 }
 
 func (databaseWrapper *MyDatabaseWrapper) loadDataFromFile() {
+	databaseWrapper.file.Lock()
 	databaseWrapper.data = databaseWrapper.repo.load()
+	databaseWrapper.file.Unlock()
 }
 
+
 func (databaseWrapper *MyDatabaseWrapper) saveDataToFile() {
+	databaseWrapper.file.Lock()
 	databaseWrapper.repo.save(databaseWrapper.data)
+	databaseWrapper.file.Unlock()
 }
 
 func (databaseWrapper *MyDatabaseWrapper) Initialize() {
