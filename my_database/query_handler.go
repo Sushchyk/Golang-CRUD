@@ -105,7 +105,7 @@ func HandleQuery(query []string, dataStorage *MyDatabaseWrapper) string {
 
 		responseMessage = "Deleted"
 	}
-
+	err = errors.New("Wrong action")
 	if (err == nil) {
 		if (query[0] == actions["r"]) {
 			return responseData

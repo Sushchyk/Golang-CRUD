@@ -36,7 +36,7 @@ func (databaseWrapper *MyDatabaseWrapper) Initialize() {
 func (databaseWrapper *MyDatabaseWrapper) addOneRecord(fields []string) (error) {
 
 	max_key := 0
-	for k, _ := range databaseWrapper.data {
+	for k,_ := range databaseWrapper.data {
 		if (k > max_key) {
 			max_key = k
 		}
